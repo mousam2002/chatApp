@@ -28,7 +28,14 @@ export const signup = async (req, res) => {
          .save();
          if (newUser) {
             createTokenAndSaveCookie(newUser._id, res);
-            res.status(201).json({message: "User registerd successfully", newUser})
+            res.status(201).json(
+               {message: "User registerd successfully", 
+               user: {
+                  _id: newUser._id,
+                  name: newUser.name,
+                  email: newUser.email,
+               },
+            })
          }
       
    } catch (error) {
@@ -71,5 +78,16 @@ export const logout = async(req, res) => {
    } catch (error) {
       console.log(error);
       res.status(500).json({message: "Server error"})
+   }
+}
+
+export const getUserProfile = async (req, res) => {
+   try {
+      const loggedInUser = req.user._id;
+      const filteredUsers = await User.find({_id:{$ne: loggedInUser}}).select("-password");
+      res.status(201).json({filteredUsers});
+   } catch (error) {
+      console.log("Error in allUsers Controller: "+error);
+      res.status(500).json({ message: "Server error"});
    }
 }

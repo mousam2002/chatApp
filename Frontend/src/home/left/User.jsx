@@ -1,6 +1,6 @@
 import React from 'react'
 
-function User() {
+function User( {user}) {
   return (
     <>
     <div>
@@ -11,8 +11,8 @@ function User() {
           </div>
         </div>
         <div>
-          <h1 className=' font-bold'>Mousam Tamrakar</h1>
-          <span>mousam@gmail.com</span>
+          <h1 className=' font-bold'>{user.name}</h1>
+          <span>{user.email}</span>
         </div>
       </div>
     </div>
