@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form"
 import axios from "axios";
 import { useAuth } from '../context/AuthProvider';
 import { Link } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 function Signup() {
   const [ authuser, setAuthUser ] = useAuth();
@@ -30,7 +31,7 @@ function Signup() {
     .then((response) => {
       console.log(response.data);
       if (response.data) {
-        alert("Signup successfull! You can now log in.")
+        toast.success("Signup successfull! You can now log in.")
       }
 
       localStorage.setItem("messenger", JSON.stringify(response.data));
@@ -38,7 +39,7 @@ function Signup() {
     })
     .catch((error) => {
       if (error.response) {
-        alert("Error:"+error.response.data.message)
+        toast.error("Error:"+error.response.data.message)
       }
     });
     

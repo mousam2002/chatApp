@@ -1,20 +1,23 @@
 import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+import cookieParser from "cookie-parser";
 import cors from "cors"
 import userRoute from "./route/userRoute.js";
 import messageRoute from "./route/messageRoute.js"
-import cookieParser from "cookie-parser";
+import { app, server } from "./socketIO/server.js";
 
-
-const app = express();
 dotenv.config();
 
 app.use(express.json());
 
 app.use(cookieParser());
 
-app.use(cors()); //enable CORS for all requests
+// app.use(cors()); //enable CORS for all requests
+app.use(cors({
+  origin: "http://localhost:4001",
+  credentials: true
+}));
 
 const PORT = process.env.PORT || 8000;
 const URI = process.env.MONGODB_URI;
@@ -29,6 +32,6 @@ try {
 app.use("/api/user", userRoute);
 app.use("/api/message", messageRoute);
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`)
 })

@@ -5,6 +5,7 @@ import Logout from './home/logout/logout'
 import Signup from './components/Signup'
 import Login from './components/Login'
 import { useAuth } from './context/AuthProvider'
+import toast, { Toaster } from 'react-hot-toast';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
 
@@ -30,6 +31,7 @@ function App() {
       <Route path='/signup' element={authuser ? <Navigate to={"/"} /> : <Signup />}/>
 
     </Routes>
+    <Toaster />
     </>
   )
 }

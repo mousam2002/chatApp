@@ -1,15 +1,45 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { IoSearch } from "react-icons/io5";
+import useGetAllUsers from '../../context/useGetAllUsers.jsx';
+import useConversation from '../../statemanage/useConversation.js';
+import toast from 'react-hot-toast';
 
 function Search() {
+   const [search, setSearch] = useState("");
+   const [allUsers] = useGetAllUsers();
+   const { setSelectedConversation } = useConversation();
+
+   const handleSubmit = (e) => {
+      e.preventDefault();
+      if (!search) {
+         return;
+      }
+      const conversation = allUsers.find((user) => {
+         return user?.name?.toLowerCase().includes(search.toLowerCase());
+      })
+
+      if (conversation) {
+         setSelectedConversation(conversation);
+         setSearch("");
+      } else {
+         toast.error("User not found")
+      }
+   }
   return (
    <>
    <div className=' h-[10vh]'>
       <div className=' px-6 py-4 '>
-         <form action="">
+         <form onSubmit={ handleSubmit }>
             <div className=' flex justify-center items-center space-x-3'>
                <label className="input w-[80%] border border-gray-700 rounded-lg">
-                  <input type="search" className=' grow outline-none bg-state-900' required placeholder="Search" />
+                  <input 
+                   type="search" 
+                   className=' grow outline-none bg-transparent' 
+                   required 
+                   placeholder="Search" 
+                   value={search}
+                   onChange={(e) => setSearch(e.target.value)}
+                  />
                </label>
                <button>
                   <IoSearch className=' text-5xl p-2 hover:bg-gray-600 rounded-full duration-300' />
