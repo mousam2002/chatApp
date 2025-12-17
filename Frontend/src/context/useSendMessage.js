@@ -31,4 +31,4 @@ function useSendMessage() {
   return { loading, sendMessages}
 }
 
-export default useSendMessage
+export default useSendMessage;
